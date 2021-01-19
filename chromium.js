@@ -14,7 +14,10 @@ async function getScreenshot(url, type, quality, fullPage, viewportWidth, viewpo
 
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: 'networkidle0' });
-    await page.evaluate(() => { window.scrollBy(0, window.innerHeight); });
+    await page.evaluate(() => { 
+        window.scrollBy(0, window.innerHeight); 
+        window.scrollTo(0, 0); 
+    });
     const file = await page.screenshot({ type,  quality, fullPage });
     await browser.close();
     return file;
