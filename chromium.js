@@ -1,5 +1,14 @@
-const chrome = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer-core');
+var chrome = {};
+var puppeteer;
+
+if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
+  // running on the Vercel platform.
+  chrome = require('chrome-aws-lambda');
+  puppeteer = require('puppeteer-core');
+} else {
+  // running locally.
+  puppeteer = require('puppeteer');
+}
 
 async function getScreenshot(url, type, quality, fullPage, viewportWidth, viewportHeight) {
     const browser = await puppeteer.launch({
