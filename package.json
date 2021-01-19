@@ -6,6 +6,9 @@
   "license": "MIT",
   "dependencies": {
     "chrome-aws-lambda": "5.2.1",
+    "imagemin": "^7.0.1",
+    "imagemin-jpegtran": "^7.0.0",
+    "imagemin-pngquant": "^9.0.1",
     "puppeteer-core": "5.2.1"
   },
   "devDependencies": {

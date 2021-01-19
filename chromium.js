@@ -10,24 +10,28 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
   puppeteer = require('puppeteer');
 }
 
-async function getScreenshot(url, type, quality, fullPage, viewportWidth, viewportHeight) {
+async function getScreenshot(url, type, quality, fullPage, viewportWidth, viewportHeight, viewportScaleFactor) {
     const browser = await puppeteer.launch({
         args: chrome.args,
         executablePath: await chrome.executablePath,
         headless: chrome.headless,
         defaultViewport: {
             width: viewportWidth,
-            height: viewportHeight
+            height: viewportHeight,
+			deviceScaleFactor: viewportScaleFactor
         }
     });
 
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'networkidle0' });
+    await page.goto(url, { waitUntil: 'networkidle2' });
+	
     await page.evaluate(() => { 
         window.scrollBy(0, window.innerHeight); 
         window.scrollTo(0, 0); 
     });
+
     const file = await page.screenshot({ type,  quality, fullPage });
+
     await browser.close();
     return file;
 }
