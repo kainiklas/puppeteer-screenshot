@@ -11,8 +11,8 @@ const defaultViewportWidth = process.env.viewportWidth || 1200;
 const defaultViewportHeight = process.env.viewportHeight || 700;
 const defaultDeviceScaleFactor = process.env.deviceScaleFactor || 1.0;
 const defaultQuality = process.env.quality || 75;
-const defaultQualityMin = process.env.qualityMin || 0.4;
-const defaultQualityMax = process.env.qualityMax || 0.6;
+const defaultMinQuality = process.env.qualityMin || 0.4;
+const defaultMaxQuality = process.env.qualityMax || 0.6;
 
 module.exports = async function (req, res) {
 
@@ -34,11 +34,11 @@ module.exports = async function (req, res) {
         const viewportHeight = parseInt(req.query.viewportHeight) || defaultViewportHeight;
         const deviceScaleFactor = parseFloat(req.query.deviceScaleFactor) || defaultDeviceScaleFactor;
         const quality = parseInt(req.query.quality) || defaultQuality;
-        let qualityMin = parseFloat(req.query.qualityMin) || defaultQualityMin;
-        let qualityMax = parseFloat(req.query.qualityMax) || defaultQualityMax;
+        let minQuality = parseFloat(req.query.minQuality) || defaultMinQuality;
+        let maxQuality = parseFloat(req.query.maxQuality) || defaultMaxQuality;
 
-        qualityMin = Math.min(qualityMin, qualityMax);
-        qualityMax = Math.max(qualityMin, qualityMax);
+        minQuality = Math.min(minQuality, maxQuality);
+        maxQuality = Math.max(minQuality, maxQuality);
 
         if (!isValidUrl(url)) {
             res.statusCode = 400;
@@ -48,7 +48,7 @@ module.exports = async function (req, res) {
         } else {
             const file = await getScreenshot(url, type, fullPage, viewportWidth, viewportHeight, deviceScaleFactor);
 
-            const compressedFile = await compress(file, quality, qualityMin, qualityMax);
+            const compressedFile = await compress(file, quality, minQuality, maxQuality);
 
             res.statusCode = 200;
             res.setHeader('Content-Type', `image/${type}`);
