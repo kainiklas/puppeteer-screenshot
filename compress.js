@@ -1,16 +1,20 @@
 const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
+const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
 
-async function compress(file) {
+async function compress(file, quality, qualityMin, qualityMax) {
+
 	const compressedFile = await imagemin.buffer(file, {
 		plugins: [
-			imageminJpegtran(),
+			imageminMozjpeg({
+				quality: quality
+			}),
 			imageminPngquant({
-				quality: [0.4, 0.6]
+				quality: [qualityMin, qualityMax]
 			})
 		]
 	});
+	
 	return compressedFile;
 };
 
