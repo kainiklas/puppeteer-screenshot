@@ -24,7 +24,7 @@ module.exports = async function (req, res) {
     }
 
     try {
-        const { pathname = '/', query = {} } = parse(req.url, true);
+        const { pathname = '/' } = parse(req.url, true);
         const url = getUrlFromPath(pathname);
 
         // get all params
