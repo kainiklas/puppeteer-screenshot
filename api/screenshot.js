@@ -1,7 +1,7 @@
 const { parse } = require('url');
-const { getScreenshot } = require('./chromium');
-const { getUrlFromPath, isValidUrl, compare } = require('./validator');
-const { compress } = require('./compress');
+const { getScreenshot } = require('./modules/chromium');
+const { getUrlFromPath, isValidUrl, compare } = require('./modules/validator');
+const { compress } = require('./modules/compress');
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
