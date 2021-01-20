@@ -34,8 +34,11 @@ module.exports = async function (req, res) {
         const viewportHeight = parseInt(req.query.viewportHeight) || defaultViewportHeight;
         const deviceScaleFactor = parseFloat(req.query.deviceScaleFactor) || defaultDeviceScaleFactor;
         const quality = parseInt(req.query.quality) || defaultQuality;
-        const qualityMin = parseFloat(req.query.qualityMin) || defaultQualityMin;
-        const qualityMax = parseFloat(req.query.qualityMax) || defaultQualityMax;
+        let qualityMin = parseFloat(req.query.qualityMin) || defaultQualityMin;
+        let qualityMax = parseFloat(req.query.qualityMax) || defaultQualityMax;
+
+        qualityMin = Math.min(qualityMin, qualityMax);
+        qualityMax = Math.max(qualityMin, qualityMax);
 
         if (!isValidUrl(url)) {
             res.statusCode = 400;
